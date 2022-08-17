@@ -1,0 +1,139 @@
+{% extends "layout.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block
+body %}
+<div class="row">
+  <h3>Welcome {{current_user.username}}</h3>
+  <br>
+  <br>
+</div>
+<div class="row">
+<aside class="col-2 nav flex-column">
+  <a class="nav-link active" href="{{ url_for('publisher') }}">Publisher Panel</a>
+</br>
+  <a class="nav-link active" href="#">Home</a>
+  <br>
+
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">Artists</div>
+        
+        <br>
+        {% for a in user_artists %}
+        <a class="nav-link active" href="{{ url_for('artist_profile', artist_id=a.id) }}">{{a.name}}</a>
+        {%endfor%}
+      </div>
+      
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">Albums</div>
+        {% for a in user_albums %}
+        <a class="nav-link active" href="#">{{a.artist.name}} -{{a.name}}</a>
+        {%endfor%}
+      </div>
+      
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">Tracks</div>
+        {% for a in user_tracks %}
+        <a class="nav-link active" href="#">{{a.album.name}} -{{a.name}}</a>
+        {%endfor%}
+      </div>
+      
+    </li>
+  </ol>
+</br>
+
+</aside>
+
+<div class="container col-10">
+  <div class="row">
+    <div class="col-3">
+      <div class="card" style="width: 13rem">
+        <img
+          src="/static/pictures/white.jpg"
+          class="card-img-top"
+          alt="white_vinyl"
+        />
+
+        <div class="card-body">
+          <a
+            class="btn btn-primary btn-sm"
+            href="{{ url_for('publisher', artist_id = 2) }}"
+            role="button"
+            >Add new artist</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card" style="width: 13rem">
+        <img
+          src="/static/pictures/white.jpg"
+          class="card-img-top"
+          alt="white_vinyl"
+        />
+
+        <div class="card-body">
+          <a class="btn btn-primary btn-sm" href="{{ url_for('publisher', album_id = 1) }}" role="button"
+            >Add new album</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card" style="width: 13rem">
+        <img
+          src="/static/pictures/white.jpg"
+          class="card-img-top"
+          alt="white_vinyl"
+        />
+
+        <div class="card-body">
+          <a class="btn btn-primary btn-sm" href="{{ url_for('publisher', track_id = 1) }}" role="button"
+            >Add new track</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+  {% if artist_id %}
+  <div class="col-sm-12 col-md-3">
+    <h3>New artist</h3>
+    <form method="POST" action="">
+      {{ form_artists.hidden_tag() }} {{ wtf.quick_form(form_artists,
+      button_map={'submit': 'info'}, novalidate=True) }}
+    </form>
+  </br>
+  </div>      
+  {%endif%}
+  {% if album_id %}
+  <div class="col-sm-12 col-md-3">
+    <h3>New album</h3>
+    <form method="POST" action="">
+      {{ form_albums.hidden_tag() }} {{ wtf.quick_form(form_albums,
+      button_map={'submit': 'info'}, novalidate=True) }}
+    </form>
+  </br>
+  </div>      
+  {%endif%}
+  {% if track_id %}
+  <div class="col-sm-12 col-md-3">
+    <h3>New album</h3>
+    <form method="POST" action="">
+      {{ form_tracks.hidden_tag() }} {{ wtf.quick_form(form_tracks,
+      button_map={'submit': 'info'}, novalidate=True) }}
+    </form>
+  </br>
+  </div>      
+  {%endif%}
+
+</div>
+</div>
+<div>
+  
+</div>
+</div>
+{% endblock %}

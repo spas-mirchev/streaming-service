@@ -1,0 +1,86 @@
+{% extends "layout.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block
+body %} ,
+<div class="container">
+  <form method="POST" action="">
+    {{ form_search.hidden_tag() }} {{ wtf.quick_form(form_search,
+    button_map={'submit': 'primary'}, novalidate=True) }}
+  </form>
+
+  <div class="row">
+    {% if artists %}
+    <div class="col-2">
+      <h5>Artists</h5>
+    </div>
+    {% endif %}
+    {% for artist in artists %}
+    <div class="col g-1">
+    <div class="card " style="width: 13rem">
+      <div class="text-danger">
+        <h6>{{artist.name}}</h6>
+      </div>
+      <img
+        src="/static/pictures/white.jpg"
+        class="card-img-top"
+        alt="white_vinyl"
+      />
+      <div class="card-body">
+        <a
+          class="btn btn-primary btn-sm"
+          href="{{ url_for('artist_profile', artist_id=artist.id) }}"
+          role="button"
+          >Link to profile</a
+        >
+      </div>
+    </div>
+  </div>
+    {% endfor %}
+  </div>
+</br>
+  <div class="row">
+    {% if albums %}
+    <div class="col-2">
+      <h5>Albums</h5>  
+    </div>
+    {% endif %}
+    {% for album in albums %}
+    <div class="card border-primary mb-3" style="width: 13rem">
+      <div class="text-danger">
+        <h6>{{album.name}}</h6>
+      </div>
+      <img
+        src="/static/pictures/white.jpg"
+        class="card-img-top"
+        alt="white_vinyl"
+      />
+      <div class="card-body">
+        <a class="btn btn-primary btn-sm" href="#" role="button">Play album</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</br>
+  <div class="row">
+    {% if tracks %}
+    <div class="col-2">
+      <h5>Tracks</h5>  
+    </div>
+    {% endif %}
+    {% for track in tracks %}
+    <div class="card" style="width: 13rem">
+      <div class="text-danger">
+        <h6>{{track.name}}</h6>
+      </div>
+      <img
+        src="/static/pictures/white.jpg"
+        class="card-img-top"
+        alt="white_vinyl"
+      />
+      <div class="card-body">
+        <a class="btn btn-primary btn-sm" href="#" role="button">Play album</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

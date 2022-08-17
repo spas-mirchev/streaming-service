@@ -1,0 +1,21 @@
+{% extends 'layout.html' %} {% import "bootstrap/wtf.html" as wtf %} {% block
+body %}
+
+<div class="container">
+  <div class="col-sm-12 col-md-8">
+    {% if error %}
+    <p class="error"><strong>Error:</strong> {{ error }} {% endif %}</p>
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">Log In</legend>
+      <form method="POST" action="">
+        {{form.hidden_tag()}} {{ wtf.quick_form(form, button_map={'submit': 'btn
+        btn-outline-info'}, novalidate=True) }}
+      </form>
+    </fieldset>
+    <p class="space-above">
+      <a href="{{ url_for('home') }}">DebutStream</a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}

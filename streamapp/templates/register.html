@@ -1,0 +1,24 @@
+{% extends "layout.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block
+body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-8">
+      <h1>Join Today</h1>
+      <form method="POST" action="">
+        {{ form.hidden_tag() }} {{ wtf.quick_form(form, button_map={'submit':
+        'info'}, novalidate=True) }}
+      </form>
+      <div>
+        <small>
+          Already have an account <a href="{{ url_for('login') }}">SignIn</a>
+        </small>
+      </div>
+      <p class="space-above">
+        <a href="{{ url_for('home') }}">DebutStream</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

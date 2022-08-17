@@ -1,0 +1,71 @@
+{% extends "layout.html" %} {% block body %}
+<h4>{{predicted_set}}</h4>
+<div class="row m-3">
+<aside class="col-2 nav flex-column">
+    <a class="nav-link active" href="{{ url_for('publisher') }}">Publisher Panel</a>
+  </br>
+    <a class="nav-link disabled" href="#">Music</a>
+    <a class="nav-link active" href="{{ url_for('search') }}">Search</a>
+    <a class="nav-link" href="#">Songs</a>
+    <a class="nav-link" href="#">Albums</a>
+    <a class="nav-link" href="#">Artists</a>
+    <a class="nav-link" href="#">Liked songs</a>
+  </br></br>
+  <a class="nav-link disabled" href="#">Playlist</a>
+  <a class="nav-link" href="#">Morning Star</a>
+  <a class="nav-link" href="#">Drive</a>
+  <a class="nav-link" href="#">Night Dreamer</a>
+  </br>
+    <audio controls autoplay>
+      <source src={{played_track}} type="audio/mp3">
+    </audio>
+</aside>
+
+  <dil class="col-10 flex-column">
+  </br>
+  <div class="container px-1">
+    <div class="text-secondary">
+       <h4>Recommended albums</h4>
+    </div>
+  <div class="row">
+  {% for album in recommended_albums %}
+  <div class="col-3"> 
+    <div class="card" style="width: 13rem;">
+      <div class="text-danger">
+        <h6>{{album.artist.name}}</h6>
+      </div>
+      <img src="/static/pictures/white.jpg" class="card-img-top" alt="white_vinyl">
+      <div class="card-body">
+         <p class="card-title text-nowrap">{{album.name}}</p>
+        <a class="btn btn-primary btn-sm" href="#" role="button">Link to album</a>
+      </div>
+    </div>
+  </div>
+    {% endfor %}
+  </div>
+</br>
+  <div class="text-secondary">
+    <h4>Recommended tracks</h4>
+ </div>
+  <div class="row">
+    {% for track in recommended_tracks%}
+    <div class="col-3"> 
+      <div class="card" style="width: 13rem ; ">
+        <div class="text-danger">
+          <h6>{{track.artist.name}}</h6>
+        </div>
+        <img src="/static/pictures/white.jpg" class="card-img-top" alt="white_vinyl">
+        <div class="card-body">
+           <p class="card-title text-nowrap">{{track.name}}</p>
+          <a class="btn btn-primary btn-sm" href="{{ url_for('player', track_id=track.id) }}" role="button">Play now</a>
+        </div>
+      </div>
+    </div>
+      {% endfor %}
+    </div>
+</div>
+</div>
+
+
+</div>
+{% endblock %}

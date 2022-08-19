@@ -25,34 +25,36 @@ class NotLoggedInException(Exception):
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
+     
+    favorite_artists = UserExperience.query.filter_by(user_id=current_user.id).all()
+    
     ind_col = np.array([a.user_id for a in UserExperience.query.all()])
     artist_col = np.array([a.artist_id for a in UserExperience.query.all()])
     scrobbles_col = np.array([a.scrobbles for a in UserExperience.query.all()])
     
     titles_dict = {a.id:a.name for a in Artist.query.all()}
     
-   
-    
     rows, r_pos = np.unique(ind_col, return_inverse=True)
     cols, c_pos = np.unique(artist_col, return_inverse=True)
-
     interactions_sparse = sparse.csr_matrix(
          (scrobbles_col, (r_pos, c_pos)))
 
     Pui = normalize(interactions_sparse, norm='l2', axis=0)
     sim = Pui.T * Pui
-
-    sim_artists = [titles_dict[i+1]
+    
+    sim_artists_names = [titles_dict[i+1]
+               for i in sim[13303].toarray().argsort()[0][-20:]]
+    sim_artists_ind = [i+1
                for i in sim[13303].toarray().argsort()[0][-20:]]
     
     fit = Pui * Pui.T * Pui
     
-    predicted_set = [titles_dict[i+1] for i in fit[2].toarray().argsort()[0][-70:].tolist()]
+    predicted_set_of_artists = [titles_dict[i+1] for i in fit[2].toarray().argsort()[0][-70:].tolist()]
     
-    recommended_tracks = Track.query.all()[:4]
-    recommended_albums = Album.query.all()[:4]
+    recommended_albums = [Album.query.filter_by(artist_id=str(a)).first() for a in sim_artists_ind]
+    recommended_tracks = [Track.query.filter_by(artist_id=str(a)).first() for a in sim_artists_ind]
 
-    return render_template("index.html", recommended_albums=recommended_albums, recommended_tracks=recommended_tracks,  logged_in=current_user.is_authenticated, Pui=Pui, predicted_set=predicted_set)
+    return render_template("index.html", recommended_albums=recommended_albums, recommended_tracks=recommended_tracks,  logged_in=current_user.is_authenticated, current_user=current_user, sim_artists_indnd=sim_artists_ind, favorite_artists=favorite_artists)
 
 
 @app.route("/player/<int:track_id>", methods=['GET', 'POST'])
